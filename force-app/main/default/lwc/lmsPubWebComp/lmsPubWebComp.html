@@ -1,0 +1,15 @@
+<template>
+    <template if:true={accounts.data}>
+        <template for:each={accounts.data} for:item="account">
+    
+        <div class="slds-box slds-theme_shade"  key={account.Id}>
+            <a  key={account.Id}  data-id={account.Id}  onclick={handleClick}>
+           <p class="label">Account Id :<span class="labelvalue">{account.Id} </span></p>
+           <p class="label">Account Name :<span class="labelvalue">{account.Name}</span></p>
+        </a>
+        </div>
+     
+      
+    </template>
+</template>
+</template>

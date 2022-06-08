@@ -1,0 +1,104 @@
+<template>
+    <div class="slds-card  forceBaseCard slds-grid slds-wrap" style="font-family: auto;"> 
+    <div class="slds-box" style="width: 100%;">
+    <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 "  >
+    
+    <div class="slds-grid slds-wrap" > 
+    
+    <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-text-heading_medium"  >
+    {heading} 
+    <div class="slds-p-around_medium lgc-bg"  style="float: right;">
+    
+    <lightning-button-menu alternative-text="Show menu" icon-name="utility:filter"  icon-size="medium" onselect={handleSelect} >
+    <template for:each={optionsList} for:item="option">
+    
+    <lightning-menu-item checked={option.checked} key={option.value} value={option.value} label={option.label}></lightning-menu-item>            
+    
+    </template>
+    
+    </lightning-button-menu>     
+    </div>
+    
+    <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 " style="margin-top: 8%;">
+    <div class="slds-grid slds-wrap"> 
+    
+    <template if:false={textval}>
+    <template if:true={task}>
+    <template for:each={task} for:item="taskObj">
+    <lightning-layout key={taskObj.tasklist.Id} class="slds-m-vertical_x-small" style="width:100%;">
+    <div  class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12" style="width: 105%;"  >
+    <div class="slds-hint-parent" role="gridcell"  data-label="Role">
+    <label class="slds-checkbox open" >
+    <template if:true={taskObj.flagstatus}>
+    <lightning-input checked type="checkbox" name="Completed" onchange={getSelectedTask} value="Completed"
+    data-id={taskObj.tasklist.Id} style="height:0px"> 
+    <span class="slds-checkbox--faux" ></span>
+    </lightning-input>
+    <a class= "slds-text-color--default uiOutputText a-comp" id={taskObj.tagid}  href={taskObj.redirectlink} target="_self" data-id={taskObj.tagid}
+    style="margin-left: 26px;font-size: medium;">  
+    {taskObj.tasklist.Subject}</a> 
+    </template>
+    <template if:false={taskObj.flagstatus}>
+    <lightning-input type="checkbox" name="chk"  data-id={taskObj.tasklist.Id} onchange={getSelectedTask} value="chk"
+    style="height:0px;width:70px; margin-right: 105px;"> 
+    <span class="slds-checkbox--faux" ></span>
+    </lightning-input>
+    <a class= "slds-text-color--default uiOutputText" id={taskObj.tagid}  href={taskObj.redirectlink} target="_self" data-id={taskObj.tagid}
+    style="margin-left: 26px;font-size: medium;">  
+    {taskObj.tasklist.Subject}</a> 
+    </template>
+    </label></div>   
+    <div class="slds-hint-parent" role="gridcell"  data-label="Role" >
+    <a  id={taskObj.tasklist.Id} class="textUnderline outputLookupLink slds-truncate"  data-id={taskObj.tasklist.WhoId}
+    style="color:blue;margin-left: 40px;font-size: medium;" 
+    href={taskObj.redirectLeadlink} target="_self"  onmouseover={showData} onmouseout={hideData}> 
+    {taskObj.tasklist.Who.Name}</a>
+    
+    </div>                                     
+    
+    </div>
+    <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 "  style="width: 30% ">
+    <div class="slds-hint-parent floatRight " >
+    <div role="gridcell" data-label="Role">
+    
+    <template if:true={taskObj.flag}  > 
+    <span  style="color: #bf1f1f; font-weight: bold;font-size: medium;"> {taskObj.datesetting}   </span> </template>
+    
+    <template if:false={taskObj.flag} > <span style="font-size: medium;">{taskObj.datesetting}</span>  </template>
+    </div>
+    </div>
+    </div>
+    </lightning-layout>
+    </template> 
+    <!-- <template if:true={leadid}>
+        <div class="slds-is-relative slds-col slds-size_5-of-12 slds-float_right " 
+       style="width: 50%; position: absolute; top: calc(50% - 82px);    left: calc(50% - 87px);">
+            <section class="slds-popover slds-nubbin_left" role="dialog">
+                <div class="slds-popover__body">
+                            <c-lead-on-hover leadid={leadid}  ></c-lead-on-hover>
+                    </div>
+            </section>
+            </div>
+    </template> -->
+    </template>
+    </template>
+    </div>
+    </div>
+    <template if:true={textval}>
+    <div class="slds-grid slds-wrap">
+    <div class="empty-state-container slds-text-align_center" style=" width: 350px;">
+    <img src="/projRes/ui-home-private/emptyStates/noTasks.svg" aria-hidden="true" style="max-width: 100%;   height: auto;vertical-align: middle;"/>
+    <br/>  
+    <span style="font-size: medium;">  {textval}  </span> 
+    </div>
+    </div>
+    </template>
+    <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-card__footer" >
+    <a href="/lightning/o/Task/home"  target="_self" class="textUnderline outputLookupLink">View All</a> 
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </template>

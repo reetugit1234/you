@@ -1,0 +1,45 @@
+p.THIS {
+    margin-bottom: 5px;
+}
+
+.THIS .outer {
+    width: 100%;
+    float: left;
+    margin: 0 5px 5px 5px;
+}
+
+.THIS .left {
+    float: left;
+    width: 50%
+}
+
+.THIS .right {
+    float: right;
+    width: 50%;
+    padding-left: 111px;
+}
+.THIS .slds-card__header-title {
+        font-size: 1rem;
+        font-family:sans-serif;
+        font-weight:bolder;
+}
+.THIS .outer1 {
+    width: 100%;
+    float: left;
+    margin: 0 5px 5px 5px;
+}
+
+.THIS .left1 {
+    float: left;
+    width: 50%
+}
+
+.THIS .right1 {
+    float: right;
+    width: 50%;
+    padding-left: 111px;
+}
+.THIS .dropdownbutton button + div{
+    left: auto !important;
+    right: 0 !important;
+}

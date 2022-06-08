@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Account Details" icon-name="standard:account">
+    <div class="slds-m-around_x-small  slds-theme_default">
+       <template if:true={listIsNotEmpty}  >
+           <template for:each={accounts.data} for:item="account">
+               <div key={account.id}>
+               <c-account-details key={account.Id} account={account} onselected={accountSelected}></c-account-details>
+           </div>
+           </template>
+       </template>
+       <lightning-layout class="slds-m-around_medium">
+           
+       <template if:true={selectedAccount}>
+                 <div>
+               <p>AccountId : {selectedAccount.Id}</p>
+               <p>Name : {selectedAccount.Name}</p>
+               <p>Title : {selectedAccount.Title__c}</p>
+           </div>
+       </template>
+    </lightning-layout>
+       </div>
+    </lightning-card>
+
+   </template>

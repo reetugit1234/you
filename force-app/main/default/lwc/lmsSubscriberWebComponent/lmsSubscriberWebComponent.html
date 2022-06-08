@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="LMSPubSubscriberWebComponent" icon-name="custom:custom14">
+            <div class="slds-box  slds-theme_default">
+                <lightning-card title="Accounts" icon-name="standard:account">
+                    <lightning-layout class="slds-m-around_medium">
+                        <lightning-layout-item>
+                            <c-lms-publisher-web-component  ></c-lms-publisher-web-component>
+                        </lightning-layout-item>
+                        
+                            <template if:true={account.data}>
+                                <lightning-card title="Account Details" icon-name="standard:account_info">
+                                    <lightning-layout>
+                                <lightning-layout-item >
+                                <div class="slds-m-left_small slds-slds-box slds-theme_shade slds-p-around_small">
+                                   
+                                    <p class="slds-p-around_xx-small">Account Name: {id}</p>
+                                    <p class="slds-p-around_xx-small">Account Id: {name}</p>
+                                    <p class="slds-p-around_xx-small">Title: {title}</p>
+                                   
+                                   
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-card>
+                            </template>                        
+                         </lightning-layout>            
+               </lightning-card>                           
+            </div>
+    </lightning-card>
+</template>

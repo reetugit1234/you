@@ -1,0 +1,19 @@
+<template>
+    <div class=" slds-theme_info">
+     
+        <template if:true={accountRecords}>
+            <template for:each={accountRecords.data} for:item="acc">
+  
+               
+                   <div class="slds-box  slds-theme_shade slds-m-bottom_xx-small"   key={acc.Id} >
+                    <a href="#"  data-id={acc.Id} onclick={selectHandler}  >
+                       <p class="label">Account ID : <span class="labelValue">{acc.Id}</span></p>
+                        <p class="label">Account Name : <span class="labelValue">{acc.Name}</span></p>
+                        </a>
+                   </div>
+              
+            </template>
+        </template>
+
+    </div>
+</template>

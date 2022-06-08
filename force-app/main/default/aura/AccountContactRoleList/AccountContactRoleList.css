@@ -1,0 +1,19 @@
+.THIS .wordspace{
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+}
+.THIS .myCheckbox{
+  display: inline-block;
+}
+.THIS .modalHd{
+  float:left;
+}
+.THIS .modalMenu{
+ font-size: medium;
+}
+.THIS .modalaTag{
+	margin-left: 3%;
+}

@@ -1,0 +1,175 @@
+<aura:component controller="ContactRoleRelatedListController"  implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="accConRoleList" type="List"/>
+    <aura:attribute name="showAll" type="Boolean" default="false"/>
+    <aura:attribute name="defaultRows" type="Integer" default="3"/>
+    <aura:attribute name="showModal" type="Boolean" default="false"/>
+    <aura:attribute name="selectedAccConRoleList" type="String"/>
+    <aura:attribute name="editedRoleVal" type="String"/>
+    <aura:attribute name="editedPrimary" type="Boolean" default="false"/>
+    <aura:attribute name="cachedSelectedContact" type="Object"/>
+    <aura:attribute name="calledFromFlow" type="Boolean" default="false"/>
+    <aura:attribute name="selectedContactOption" type="String"/>
+    <aura:attribute name="contactNameFilterCreteria" type="String"/>
+    <aura:handler   name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <article class="slds-card slds-p-around_small">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-contact" title="contact">
+                        <lightning:icon iconName="standard:contact" size="medium" />
+                        <span class="slds-assistive-text">contact</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title titleContactRole">
+                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Contacts Roles">
+                            <span class="slds-text-heading_small">Contact Roles ({!v.accConRoleList.length})</span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning:button title="New" class="slds-button slds-button_brand" onclick="{!c.openNewModal}">New</lightning:button>
+                    {!v.body}
+                </div>
+            </header>
+        </div>
+        <aura:if isTrue="{!(v.accConRoleList.length)>0}">
+            
+            <div class="slds-card__body">
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-text-title">
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="ContactName">Contact Name</div>
+                            </th>
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="Account">Account Name</div>
+                            </th>
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="Email">Email</div>
+                            </th>
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="Phone">Phone</div>
+                            </th>
+                            <th class="slds-size_1-of-3 slds-cell-wrap" scope="col">
+                                <div class="slds-truncate" title="Role">Role</div>
+                            </th>
+                            <th class="slds-size_1-of-3 " scope="col">
+                                <div class="slds-truncate" title="IsPrimary?">Primary</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <aura:iteration start="0" end="{!if(v.showAll, v.accConRoleList.length, v.defaultRows)}"  items="{!v.accConRoleList}" var="con">
+                            <tr class="slds-hint-parent ">
+                                <td>
+                                    <div>
+                                        <a title="Edit this contact role" id="{!con.acrList.ContactId}"   name="{!con.acrList.Id}"
+                                           class="{!con.acrList.Role}" onclick="{!c.editRole}">
+                                            
+                                            <lightning:icon iconName="utility:edit" size="xx-small" />
+                                        </a>
+                                        |
+                                        <a  title="Delete this contact role" id="{!con.acrList.ContactId}" name="{!con.acrList.Id}"
+                                           onclick="{!c.deleteRole}">
+                                            
+                                            <lightning:icon iconName="utility:delete" size="xx-small" />
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="slds-cell-wrap">
+                                    <div class="wordspace slds-truncate">
+                                        <a href="{!'/lightning/r/Contact/'+con.acrList.ContactId+'/view'}"
+                                           id="{!con.acrList.ContactId}" title="{!con.acrList.Contact.Name}">{!con.acrList.Contact.Name}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="slds-cell-wrap">
+                                    <div class="wordspace">
+                                        <a href="{!'/lightning/r/Account/'+con.acrList.Contact.AccountId+'/view'}"
+                                           title="{!con.acrList.Contact.Account.Name}">{!con.acrList.Contact.Account.Name}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="slds-cell-wrap">
+                                    <div class="wordspace" title="{!con.acrList.Contact.Email}">{!con.acrList.Contact.Email}
+                                    </div>
+                                </td>
+                                <td class="slds-cell-wrap">
+                                    <div class="wordspace" title="{!con.acrList.Contact.Phone}">{!con.acrList.Contact.Phone}
+                                    </div>
+                                </td>
+                                <td class="slds-cell-wrap">
+                                    <div class="wordspace" title="{!con.acrList.Role}"> {!con.acrList.Role}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate " title="Check box to make thic contact Primary">
+                                        <ui:outputCheckbox   aura:id="checkboxprimary" value="{!con.Primaryflag}" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <aura:set attribute="else">              
+                <span class="slds-p-around_medium" style="margin-left: 25%;">No Contact Roles Found..</span>
+                <br/>
+            </aura:set>
+        </aura:if>
+        <footer class="slds-card__footer">
+            <aura:if isTrue="{!and(v.showAll == false, v.accConRoleList.length > v.defaultRows)}">
+                <a class="slds-card__footer-action" onclick="{!c.viewAll}" href="javascript:void(0);">View All
+                    <span class="slds-assistive-text">Contacts</span>
+                </a>
+            </aura:if>
+            <aura:if isTrue="{!v.showAll}">
+                <a class="slds-card__footer-action" onclick="{!c.viewLess}" href="javascript:void(0);">View Less
+                    <span class="slds-assistive-text">Contacts</span>
+                </a>
+            </aura:if>
+        </footer>
+    </article>
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open"
+                 aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"  aura:id="newContactRole">
+            
+            <div class="slds-modal__container" >
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                          iconName="utility:close"  variant="border-inverse" title="close"
+                                          alternativeText="Close modal" onclick="{!c.hideModal}"/>
+                    <h2 id="modal-heading-01" class="slds-modal__title modalHd" >Contact Roles for <b>{!v.selectedAccConRoleList.Contact.Account.Name}</b></h2>
+                </header>
+                <div class="slds-modal__menu modalMenu" >
+                    <span>Contact :
+                        <a class="modalaTag" href="{!'/lightning/r/Contact/'+v.SelectedContactId+'/view'}"
+                           id="{!v.selectedAccConRoleList.ContactId}"  >{!v.selectedAccConRoleList.Contact.Name}
+                        </a>
+                    </span>
+                    <br/><br/>
+                    <ui:inputSelect label="Role" class="dynamic" aura:id="InputSelectRole"
+                                    value="{!v.selectedAccConRoleList.Role}" change="{!c.onRoleChange}"/>
+                    <br/>
+                    <span>
+                        <ui:inputCheckbox class="myCheckbox" label="IsPrimary : "  aura:id="checkboxprimaryss"
+                                          value="{!v.selectedAccConRoleList.IsPrimary}" change="{!c.onPrimaryChange}"/>
+                    </span>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral"  onclick="{!c.hideModal}">Cancel</button>
+                    <button class="slds-button slds-button_brand" id="{!v.selectedAccConRoleList.Id}" onclick="{!c.saveEditedContactRole}">Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

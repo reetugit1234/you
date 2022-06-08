@@ -1,0 +1,47 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="Task1">
+    
+    <aura:attribute name="taskList" type="List" />
+    <aura:attribute name="list" type="string" default="Today's Task" />
+    <aura:handler name="init" value="{!this}" action="{!c.handlerInit}" />
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <div class="outer1" style="width=100%">
+            <span class="left1" style="width:50%;padding-block-start: 7px;">
+                <lightning:layoutItem>
+                    
+                    <span class="slds-card__header-title slds-truncate" style="font-size=1rem;font-family: 'Salesforce Sans',Arial,sans-serif;padding-block-start: 6px;">
+                        {!v.list}
+                    </span>
+                    
+                </lightning:layoutItem>
+            </span>
+            
+            <span class="right1" style="width-50%">
+                <span class="slds-no-flex" style="padding-left: 43px;">
+                    
+                    <lightning:buttonMenu class=" dropdownbutton slds-button slds-button_icon slds-button_icon-border-filled" aura:id="menu" onselect="{!c.myAction }" alternativeText="Show menu">
+                        
+                        <lightning:menuItem  value="Today" label="Today" />
+                        <lightning:menuItem  value="My Tasks" label="My Tasks" />
+                        <lightning:menuItem value="AllOverdue" label="All Overdue" />
+                        <lightning:menuItem  value="Completed" label="Completed within Last 7 Days" />
+                        
+                    </lightning:buttonMenu>
+                    
+                </span>
+            </span>
+            
+            <div class="slds-no-flex iteration" style="padding:4px;width:100%;">
+                <aura:iteration var="r" items="{!v.taskList}">
+                    
+                    <div class="outer" style="width=100%">
+                        <span class="left" style="width:50%;padding-block-start:16px;">
+                            {!r.Subject}</span><span class="right" style="width-50%;padding-block-start:16px;">
+                        {!r.ActivityDate}</span>
+                        
+                    </div>
+                </aura:iteration>
+            </div>
+            
+        </div>
+    </lightning:layout>
+</aura:component>
